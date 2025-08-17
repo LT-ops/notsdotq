@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notsdotq - DeFi Token Ecosystem</title>
+  <style>
+    /* ---------------- Base / Reset ---------------- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-1: #667eea; /* indigo */
+      --bg-2: #764ba2; /* purple */
+      --ink: #2d2d2d;
+      --ink-soft: #4b5563;
+      --white: #ffffff;
+      --card-shadow: 0 8px 32px rgba(0,0,0,0.10);
+      --glass: rgba(255, 255, 255, 0.10);
+      --glass-border: rgba(255, 255, 255, 0.20);
+      --brand: #5a67d8; /* section heading */
+      --success: #00b894;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 100%);
+      min-height: 100vh;
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+    /* ---------------- Header ---------------- */
+    .header {
+      text-align: center; margin-bottom: 50px; background: var(--glass);
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+      border-radius: 20px; padding: 40px; border: 1px solid var(--glass-border);
+    }
+    .header h1 { font-size: clamp(2.2rem, 4vw, 3.5rem); color: #fff; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+    .header p { font-size: 1.1rem; color: rgba(255, 255, 255, 0.92); margin-bottom: 30px; }
+
+    .quick-links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .quick-link {
+      background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+      color: white; padding: 10px 18px; border-radius: 30px; text-decoration: none;
+      font-weight: 700; transition: transform .25s ease, box-shadow .25s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.20);
+      font-size: .95rem;
+    }
+    .quick-link:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.30); }
+
+    /* ---------------- Nav ---------------- */
+    .nav-menu { display: flex; justify-content: center; gap: 14px; margin: 28px 0 40px; flex-wrap: wrap; }
+    .nav-item {
+      background: var(--glass); color: #fff; padding: 10px 18px; border-radius: 25px;
+      cursor: pointer; transition: all .25s ease; border: 2px solid transparent; user-select: none;
+    }
+    .nav-item:hover, .nav-item.active { background: rgba(255,255,255,.20); border-color: rgba(255,255,255,.30); }
+
+    /* ---------------- Sections ---------------- */
+    .section {
+      background: rgba(255, 255, 255, .96); border-radius: 16px; padding: 24px; margin-bottom: 26px;
+      box-shadow: var(--card-shadow); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    }
+    .section h2 { color: var(--brand); font-size: clamp(1.4rem, 2vw, 2rem); margin-bottom: 14px; border-bottom: 2px solid var(--brand); padding-bottom: 8px; }
+
+    .content-section { display: none; }
+    .content-section.active { display: block; }
+
+    /* ---------------- Cards / Grid ---------------- */
+    .token-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin-top: 16px; }
+    .token-card {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white; padding: 18px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,.12);
+      transition: transform .25s ease; will-change: transform;
+    }
+    .token-card:hover { transform: translateY(-5px); }
+    .token-name { font-size: 1.15rem; font-weight: 800; margin-bottom: 6px; letter-spacing: .2px; }
+    .token-symbol { font-size: .9rem; opacity: .95; margin-bottom: 6px; }
+    .token-address {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .83rem;
+      background: rgba(255,255,255,.22); padding: 8px; border-radius: 6px; word-break: break-all; cursor: pointer; transition: background .2s ease;
+    }
+    .token-address:hover { background: rgba(255,255,255,.30); }
+    .copy-btn { background: none; border: none; color: inherit; cursor: pointer; padding: 2px 6px; border-radius: 4px; margin-left: 6px; opacity: .8; }
+    .copy-btn:hover { opacity: 1; background: rgba(255,255,255,.22); }
+
+    .parent-token { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .child-tokens { margin-left: 20px; border-left: 3px solid var(--brand); padding-left: 18px; }
+    .child-token { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #333; }
+
+    /* ---------------- Tools ---------------- */
+    .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; }
+    .tool-card { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); padding: 22px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,.1); transition: transform .25s ease; }
+    .tool-card:hover { transform: translateY(-5px); }
+    .tool-card h3 { color: #d63031; margin-bottom: 10px; font-size: 1.2rem; }
+    .tool-btn { background: linear-gradient(45deg, #d63031, #e17055); color: white; padding: 10px 22px; border: none; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: bold; transition: transform .2s ease, box-shadow .2s ease; cursor: pointer; }
+    .tool-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,.2); }
+
+    /* ---------------- Diagram ---------------- */
+    .hierarchy-diagram { margin: 30px 0; }
+    .hierarchy-level { margin: 18px 0; }
+    .hierarchy-arrow { font-size: 2rem; color: white; text-align: center; margin: 8px 0; text-shadow: 2px 2px 4px rgba(0,0,0,.3); }
+
+    /* ---------------- Notification ---------------- */
+    .notification {
+      position: fixed; top: 20px; right: 20px; background: var(--success); color: white; padding: 14px 18px; border-radius: 10px;
+      display: none; z-index: 1000; box-shadow: 0 10px 20px rgba(0,0,0,.12);
+    }
+
+    /* ---------------- Responsive ---------------- */
+    @media (max-width: 768px) {
+      .quick-links { flex-direction: column; align-items: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .token-card, .tool-card, .quick-link, .nav-item { transition: none !important; }
+    }
+  
+    /* === Theme toggle & mobile nav additions === */
+    :root { --section-light: rgba(255,255,255,.96); --section-dark: rgba(17,20,28,.82); }
+    .section { background: var(--section-light); }
+
+    .header-controls { display:flex; justify-content:center; gap:10px; margin-bottom:10px; }
+    .header-controls .chip { background: var(--glass); color:#fff; border:1px solid var(--glass-border); border-radius:999px; padding:8px 14px; cursor:pointer; }
+    .header-controls .chip:hover { background: rgba(255,255,255,.2); }
+
+    .nav-toggle { display:none; background: var(--glass); color:#fff; border:1px solid var(--glass-border); border-radius:999px; padding:10px 16px; cursor:pointer; }
+    .nav-toggle:hover { background: rgba(255,255,255,.2); }
+
+    @media (max-width:768px){
+      .nav-toggle{ display:block; margin: 0 auto 12px; }
+      .nav-menu{ display:none; }
+      .nav-menu.open{ display:flex; }
+    }
+
+    [data-theme="dark"]{
+      --bg-1: #1f2638;
+      --bg-2: #0f1325;
+      --ink: #e7eaf0;
+      --ink-soft: #c2c8d0;
+      --glass: rgba(255,255,255,0.06);
+      --glass-border: rgba(255,255,255,0.12);
+    }
+
+    [data-theme="dark"] .section{ background: var(--section-dark); color: var(--ink); }
+    [data-theme="dark"] .nav-item{ color: #f2f3f7; }
+  
+    .token-link{ cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header" role="banner">
+      <h1>@notsdotq</h1>
+      <p>Decentralized Finance Token Ecosystem</p>
+      <div class="header-controls">
+        <button id="themeToggle" class="chip" aria-pressed="false" title="Toggle theme">🌙 Dark</button>
+      </div>
+      <nav aria-label="Quick links">
+        <div class="quick-links">
+          <a href="https://treasurysystem.win/" target="_blank" rel="noopener" class="quick-link">Treasury System</a>
+          <a href="https://spinetracker.vercel.app/" target="_blank" rel="noopener" class="quick-link">Spine Tracker</a>
+            <a href="https://t.me/notsdotq" target="_blank" rel="noopener" class="quick-link">Telegram @notsdotq</a>
+          <a href="https://dexscreener.com/pulsechain/0x0f127db7a16bc6cfd9de030f2b3e5811cb68a77b" target="_blank" rel="noopener" class="quick-link">📈 DexScreener</a>
+          <a href="https://pulsex.mypinata.cloud/ipfs/bafybeiajyhfbf6evh4mdabassmbtsy73ci2gmcgh4ffmjkrgsea35vqxba/#/" target="_blank" rel="noopener" class="quick-link">💰 PulseX</a>
+          </div>
+      </nav>
+    </header>
+
+    <!-- Top Nav -->
+    <button id="navToggle" class="nav-toggle" aria-expanded="false" aria-controls="siteNav" title="Toggle menu">☰ Menu</button>
+    <nav id="siteNav" class="nav-menu">
+      <div class="nav-item active" role="button" aria-current="page" data-target="overview" onclick="showSection('overview', this)">Overview</div>
+      <div class="nav-item" role="button" data-target="nasdaq" onclick="showSection('nasdaq', this)">NASDAQ Tokens</div>
+      <div class="nav-item" role="button" data-target="dowjones" onclick="showSection('dowjones', this)">Dow Jones Tokens</div>
+      <div class="nav-item" role="button" data-target="sp500" onclick="showSection('sp500', this)">S&amp;P 500 Tokens</div>
+      <div class="nav-item" role="button" data-target="bank" onclick="showSection('bank', this)">Bank Tokens</div>
+      <div class="nav-item" role="button" data-target="tools" onclick="showSection('tools', this)">Tools & Utilities</div>
+    </nav>
+
+    <!-- OVERVIEW -->
+    <section id="overview" class="content-section active" aria-labelledby="overview-title">
+      <div class="section">
+        <h2 id="overview-title">Token Ecosystem Hierarchy</h2>
+        <p>Welcome to the Notsdotq token ecosystem, featuring a comprehensive collection of DeFi tokens representing major market indices and financial institutions.</p>
+
+        <div style="text-align: center; margin: 30px 0;">
+          <div class="hierarchy-diagram">
+            <div class="hierarchy-level">
+              <div class="token-card" style="background: linear-gradient(135deg, #74b9ff, #0984e3); margin: 0 auto; max-width: 420px;">
+                <div class="token-name">TREASURY BILL 💰</div>
+                <div class="token-symbol">Root Contract</div>
+                <div class="token-address" onclick="copyToClipboard('0x463413c579D29c26D59a65312657DFCe30D545A1')">
+                  0x463413c579D29c26D59a65312657DFCe30D545A1
+                  <button class="copy-btn" aria-label="Copy address">📋</button>
+                </div>
+              </div>
+            </div>
+            <div class="hierarchy-arrow" aria-hidden="true">↓</div>
+            <div class="hierarchy-level">
+              <div class="token-card parent-token" style="margin: 0 auto; max-width: 420px;">
+                <div class="token-name">F⊙D (Federal Reserve)</div>
+                <div class="token-address" onclick="copyToClipboard('0x1D177CB9EfEEa49A8B97ab1C72785a3A37ABc9Ff')">
+                  0x1D177CB9EfEEa49A8B97ab1C72785a3A37ABc9Ff
+                  <button class="copy-btn" aria-label="Copy address">📋</button>
+                </div>
+              </div>
+            </div>
+            <div class="hierarchy-arrow" aria-hidden="true">↓</div>
+            <div class="hierarchy-level" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+              <a href="#nasdaq" class="token-card token-link" style="background: linear-gradient(135deg, #00b894, #00cec9); max-width: 220px; text-decoration:none;" data-goto="nasdaq" role="button" aria-label="Go to NASDAQ section">
+                <div class="token-name">N⊙SD⊙Q</div>
+                <div class="token-symbol">(V4)</div>
+              </a>
+            </div>
+            <div class="hierarchy-arrow" aria-hidden="true">↓</div>
+            <div class="hierarchy-level" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+              <a href="#bank" class="token-card token-link" style="background: linear-gradient(135deg, #e84393, #fd79a8); max-width: 220px; text-decoration:none;" data-goto="bank" role="button" aria-label="Go to Bank tokens section">
+                <div class="token-name">B⊙NK</div>
+                <div class="token-symbol">(V4)</div>
+              </a>
+            </div>
+            <div class="hierarchy-arrow" aria-hidden="true">↓</div>
+            <div class="hierarchy-level" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+              <a href="#bank" class="token-card token-link" style="background: linear-gradient(135deg, #a29bfe, #6c5ce7); max-width: 220px; text-decoration:none;" data-goto="bank" role="button" aria-label="Go to TR⊙Y in Bank section">
+                <div class="token-name">TR⊙Y</div>
+                <div class="token-symbol">(V4)</div>
+              </a>
+            </div>
+          </div>
+
+        <div class="token-grid">
+          <div class="token-card parent-token">
+            <div class="token-name">Notsdotq Main Contract</div>
+            <div class="token-address" onclick="copyToClipboard('0xaC57300DA6e17e9E83e71b9F6F75d08dC3836532')">
+              0xaC57300DA6e17e9E83e71b9F6F75d08dC3836532
+              <button class="copy-btn" aria-label="Copy address">📋</button>
+            </div>
+            <div style="margin-top: 12px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+              <a href="https://dexscreener.com/pulsechain/0x0f127db7a16bc6cfd9de030f2b3e5811cb68a77b" target="_blank" rel="noopener" class="quick-link" style="font-size: .9em; padding: 8px 14px;">📈 View Chart</a>
+              <a href="https://pulsex.mypinata.cloud/ipfs/bafybeiajyhfbf6evh4mdabassmbtsy73ci2gmcgh4ffmjkrgsea35vqxba/#/" target="_blank" rel="noopener" class="quick-link" style="font-size: .9em; padding: 8px 14px;">💰 Buy on PulseX</a>
+            </div>
+          </div>
+
+          <a href="#tools" class="token-card parent-token token-link" data-goto="tools" role="button" aria-label="Open Tools & Utilities" style="text-decoration:none;">
+            <div class="token-name">NotsDotQ V4 Spine</div>
+            <div class="token-symbol">Core Infrastructure</div>
+            <div style="margin-top:10px; font-size:.9em; opacity:.95;">Open Tools →</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- NASDAQ -->
+    <section id="nasdaq" class="content-section" aria-labelledby="nasdaq-title">
+      <div class="section">
+        <p><a href="#overview" class="tool-btn" style="padding:8px 14px" onclick="showSection('overview');return false;">← Back to Overview</a></p>
+        <h2 id="nasdaq-title">NASDAQ (N⊙SD⊙Q) Tokens - V4</h2>
+        <p>The NASDAQ branch is the parent for two index branches. Jump into either branch below. B⊙NK (V4) is also part of the V4 layer under Notsdotq, so we surface it here for quick access.</p>
+
+        <h3 style="color:#8e44ad; margin: 18px 0 10px;">V4 Child Token</h3>
+        <div class="token-grid">
+          <div class="token-card" style="background: linear-gradient(135deg, #e84393, #fd79a8);">
+            <div class="token-name">B⊙NK (V4)</div>
+            <div class="token-symbol">Bank of Teh People</div>
+            <div class="token-address" onclick="copyToClipboard('0x655ADbF729Cbe35c3b10e73da30b00F66d7C0da3')">
+              0x655ADbF729Cbe35c3b10e73da30b00F66d7C0da3
+              <button class="copy-btn" aria-label="Copy address">📋</button>
+            </div>
+            <div style="margin-top:10px;">
+              <a href="#bank" class="tool-btn" style="padding:8px 14px" onclick="showSection('bank');return false;">Open Bank Section</a>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="color:#27ae60; margin: 22px 0 10px;">V3 Index Branches</h3>
+        <div class="token-grid">
+          <a href="#dowjones" class="token-card token-link" data-goto="dowjones" role="button" aria-label="Go to Dow Jones section" style="text-decoration:none;background:linear-gradient(135deg,#ff7675,#d63031)">
+            <div class="token-name">D⊙W⊙J (V3)</div>
+            <div class="token-symbol">Dow Jones Index</div>
+          </a>
+          <a href="#sp500" class="token-card token-link" data-goto="sp500" role="button" aria-label="Go to S&amp;P 500 section" style="text-decoration:none;background:linear-gradient(135deg,#55efc4,#00b894)">
+            <div class="token-name">S&amp;P⊙500 (V3)</div>
+            <div class="token-symbol">S&amp;P 500 Index</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- DOW JONES / INDIVIDUAL -->
+    <section id="dowjones" class="content-section" aria-labelledby="dowjones-title">
+      <div class="section">
+        <p><a href="#overview" class="tool-btn" style="padding:8px 14px" onclick="showSection('overview');return false;">← Back to Overview</a></p>
+        <h2 id="dowjones-title">Dow Jones Tokens (D⊙W⊙J V3)</h2>
+        <p>Parent and selected children for the Dow Jones branch.</p>
+
+        <div class="token-grid">
+          <div class="token-card child-token" style="background:linear-gradient(135deg,#ff7675,#d63031);color:#fff;">
+            <div class="token-name">D⊙W⊙J (V3)</div>
+            <div class="token-symbol">Dow Jones Index</div>
+            <div class="token-address" onclick="copyToClipboard('0x7A62fd6b9397740C1E59127a013025e32da310a8')">
+              0x7A62fd6b9397740C1E59127a013025e32da310a8
+              <button class="copy-btn" aria-label="Copy address">📋</button>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="color:#666; margin: 18px 0 10px;">Children</h3>
+        <div class="token-grid">
+          <div class="token-card child-token">
+            <div class="token-name">B⊙EING (V3)</div>
+            <div class="token-symbol">Boeing</div>
+            <div class="token-address" onclick="copyToClipboard('0x192E0bA3F6F1C5BB7Db95dcA505683FCed48DEB9')">
+              0x192E0bA3F6F1C5BB7Db95dcA505683FCed48DEB9
+              <button class="copy-btn" aria-label="Copy address">📋</button>
+            </div>
+          </div>
+          <div class="token-card child-token">
+            <div class="token-name">N⊙K⊙E (V3)</div>
+            <div class="token-symbol">Nike</div>
+            <div class="token-address" onclick="copyToClipboard('0xb4484b06df3C665EE8f14De086cDeEDa55C3F01B')">
+              0xb4484b06df3C665EE8f14De086cDeEDa55C3F01B
+              <button class="copy-btn" aria-label="Copy address">📋</button>
+            </div>
+          </div>
+          <div class="token-card child-token">
+            <div class="token-name">DIS⊙ (V3)</div>
+            <div class="token-symbol">Disney</div>
+            <div class="token-address" onclick="copyToClipboard('0x01Fc346F82d809C9e0b017Ac939Bc2065Ed34475')">
+              0x01Fc346F82d809C9e0b017Ac939Bc2065Ed34475
+              <button class="copy-btn" aria-label="Copy address">📋</button>
+            </div>
+          </div>
+          <div class="token-card child-token">
+            <div class="token-name">T⊙SL⊙ (V3)</div>
+            <div class="token-symbol">Tesla</div>
+            <div class="token-address" onclick="copyToClipboard('0x6A3a6D9B578549b7AA94a7dc8913feCC2fBDf947')">
+              0x6A3a6D9B578549b7AA94a7dc8913feCC2fBDf947
+              <button class="copy-btn" aria-label="Copy address">📋</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- S&P 500 -->
+    <section id="sp500" class="content-section" aria-labelledby="sp500-title">
+      <div class="section">
+        <p><a href="#overview" class="tool-btn" style="padding:8px 14px" onclick="showSection('overview');return false;">← Back to Overview</a></p>
+        <h2 id="sp500-title">S&amp;P 500 Tokens (S&amp;P⊙500 V3)</h2>
+        <p>Parent and selected children for the S&amp;P 500 branch.</p>
+
+        <div class="token-grid">
+          <div class="token-card child-token" style="background:linear-gradient(135deg,#55efc4,#00b894);color:#333;">
+            <div class="token-name">S&amp;P⊙500 (V3)</div>
+            <div class="token-symbol">S&amp;P 500 Index</div>
+            <div class="token-address" onclick="copyToClipboard('0xa2c1eddC9B76f08b11A16e54fb427Fe40a9a5E18')">
+              0xa2c1eddC9B76f08b11A16e54fb427Fe40a9a5E18
+              <button class="copy-btn" aria-label="Copy address">📋</button>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="color:#666; margin: 18px 0 10px;">Children</h3>
+        <div class="token-grid">
+          <div class="token-card child-token">
+            <div class="token-name">WK Kell⊙gg C⊙</div>
+            <div class="token-symbol">KLG⊙ (V3)</div>
+            <div class="token-address" onclick="copyToClipboard('0xD9b7C783A99203e52eA33850BeA8bEE4A46358a0')">
+              0xD9b7C783A99203e52eA33850BeA8bEE4A46358a0
+              <button class="copy-btn" aria-label="Copy address">📋</button>
+            </div>
+          </div>
+          <div class="token-card child-token">
+            <div class="token-name">Novido</div>
+            <div class="token-symbol">NVDA⊙ (V3)</div>
+            <div class="token-address" onclick="copyToClipboard('0x506502388bb74d98BeD3f070b85Ae74936E19223')">
+              0x506502388bb74d98BeD3f070b85Ae74936E19223
+              <button class="copy-btn" aria-label="Copy address">📋</button>
+            </div>
+          </div>
+          <div class="token-card child-token">
+            <div class="token-name">GooGullible</div>
+            <div class="token-symbol">G⊙⊙GL⊙ (V3)</div>
+            <div class="token-address" onclick="copyToClipboard('0xfebe955A35822764845Ac5981cF669ba6CdEAbA9')">
+              0xfebe955A35822764845Ac5981cF669ba6CdEAbA9
+              <button class="copy-btn" aria-label="Copy address">📋</button>
+            </div>
+          </div>
+          <div class="token-card child-token">
+            <div class="token-name">CokeAColuh</div>
+            <div class="token-symbol">K⊙ (V3)</div>
+            <div class="token-address" onclick="copyToClipboard('0x713D73F178d74F326325db870646a0ae249Ac4f5')">
+              0x713D73F178d74F326325db870646a0ae249Ac4f5
+              <button class="copy-btn" aria-label="Copy address">📋</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BANK -->
+    <section id="bank" class="content-section" aria-labelledby="bank-title">
+      <div class="section">
+        <p><a href="#overview" class="tool-btn" style="padding:8px 14px" onclick="showSection('overview');return false;">← Back to Overview</a></p>
+        <h2 id="bank-title">Bank Tokens (B⊙NK V4)</h2>
+        <p>Bank-themed tokens and related financial primitives.</p>
+        <div class="token-grid">
+          <div class="token-card" style="background: linear-gradient(135deg, #e84393, #fd79a8);">
+            <div class="token-name">B⊙NK (V4)</div>
+            <div class="token-symbol">Bank of Teh People</div>
+            <div class="token-address" onclick="copyToClipboard('0x655ADbF729Cbe35c3b10e73da30b00F66d7C0da3')">
+              0x655ADbF729Cbe35c3b10e73da30b00F66d7C0da3
+              <button class="copy-btn" aria-label="Copy address">📋</button>
+            </div>
+          </div>
+          <div class="token-card" style="background: linear-gradient(135deg, #a29bfe, #6c5ce7);">
+            <div class="token-name">TR⊙Y (V4)</div>
+            <div class="token-symbol">Treasury Yields</div>
+            <div class="token-address" onclick="copyToClipboard('0xe4b960ff9dbfb418af4e181966cd44ccb66acf7e')">
+              0xe4b960ff9dbfb418af4e181966cd44ccb66acf7e
+              <button class="copy-btn" aria-label="Copy address">📋</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOLS -->
+    <section id="tools" class="content-section" aria-labelledby="tools-title">
+      <div class="section">
+        <h2 id="tools-title">Tools & Utilities</h2>
+        <div class="tools-grid">
+          <div class="tool-card">
+            <h3>Treasury System</h3>
+            <p style="margin-bottom:14px;">Manage core treasury operations and flows.</p>
+            <a class="tool-btn" href="https://treasurysystem.win/" target="_blank" rel="noopener">Open</a>
+          </div>
+          <div class="tool-card">
+            <h3>Spine Tracker</h3>
+            <p style="margin-bottom:14px;">Monitor V4 spine health and metrics.</p>
+            <a class="tool-btn" href="https://spinetracker.vercel.app/" target="_blank" rel="noopener">Open</a>
+          </div>
+          <div class="tool-card">
+            <h3>DexScreener</h3>
+            <p style="margin-bottom:14px;">Charts and liquidity analytics.</p>
+            <a class="tool-btn" href="https://dexscreener.com/pulsechain/0x0f127db7a16bc6cfd9de030f2b3e5811cb68a77b" target="_blank" rel="noopener">Open</a>
+          </div>
+          <div class="tool-card">
+            <h3>PulseX</h3>
+            <p style="margin-bottom:14px;">Swap and provide liquidity.</p>
+            <a class="tool-btn" href="https://pulsex.mypinata.cloud/ipfs/bafybeiajyhfbf6evh4mdabassmbtsy73ci2gmcgh4ffmjkrgsea35vqxba/#/" target="_blank" rel="noopener">Open</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUICK-LINK TARGETS -->
+    <footer style="text-align:center; color:#fff; opacity:.9; margin: 28px 0 14px;">
+      <small>© <span id="year"></span> Notsdotq • All on-chain addresses are for informational use only.</small>
+    </footer>
+  </div>
+
+  <!-- Notification bubble -->
+  <div id="notify" class="notification" role="status" aria-live="polite"></div>
+
+  <script>
+    // ---------- Utility: show toast ----------
+    function showToast(message, timeout = 1600) {
+      const el = document.getElementById('notify');
+      if (!el) return;
+      el.textContent = message;
+      el.style.display = 'block';
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => (el.style.display = 'none'), timeout);
+    }
+
+    // ---------- Clipboard copy (with fallback) ----------
+    function copyToClipboard(text) {
+      if (!text) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast('Address copied to clipboard');
+        }).catch(() => fallbackCopy(text));
+      } else {
+        fallbackCopy(text);
+      }
+    }
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); showToast('Address copied to clipboard'); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+
+    // ---------- Section switching + hash sync ----------
+    function setActiveNav(targetId) {
+      const items = document.querySelectorAll('.nav-item');
+      items.forEach(n => {
+        const isActive = n.getAttribute('data-target') === targetId;
+        n.classList.toggle('active', isActive);
+        if (isActive) n.setAttribute('aria-current', 'page'); else n.removeAttribute('aria-current');
+      });
+    }
+
+    function showSection(id, el) {
+      const sections = document.querySelectorAll('.content-section');
+      sections.forEach(s => s.classList.toggle('active', s.id === id));
+      if (el) {
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        el.classList.add('active');
+        el.setAttribute('aria-current', 'page');
+      } else {
+        setActiveNav(id);
+      }
+      if (location.hash !== '#' + id) {
+        history.replaceState(null, '', '#' + id);
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function syncFromHash() {
+      const raw = location.hash || '#overview';
+      const id = raw.replace('#','');
+      const section = document.getElementById(id);
+      if (section) {
+        showSection(id);
+      } else {
+        showSection('overview');
+      }
+    }
+
+    // === Theme helpers ===
+    function getStoredTheme(){ try { return localStorage.getItem('theme'); } catch(_) { return null; } }
+    function getPreferredTheme(){ const s = getStoredTheme(); if (s==='light'||s==='dark') return s; return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light'; }
+    function applyTheme(theme){ document.body.setAttribute('data-theme', theme); const btn = document.getElementById('themeToggle'); if (btn) { btn.setAttribute('aria-pressed', theme==='dark'); btn.textContent = theme==='dark' ? '☀️ Light' : '🌙 Dark'; btn.title = 'Switch to ' + (theme==='dark' ? 'light' : 'dark') + ' theme'; } }
+    function toggleTheme(){ const current = document.body.getAttribute('data-theme') || getPreferredTheme(); const next = current==='dark' ? 'light' : 'dark'; try { localStorage.setItem('theme', next); } catch(_){} applyTheme(next); }
+
+    // ---------- Init ----------
+    document.addEventListener('DOMContentLoaded', () => {
+      // Year
+      const yearEl = document.getElementById('year'); if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+      // Theme init & toggle
+      applyTheme(getPreferredTheme());
+      const themeBtn = document.getElementById('themeToggle'); if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
+
+      // Mobile nav toggle
+      const navToggle = document.getElementById('navToggle');
+      const siteNav = document.getElementById('siteNav');
+      if (navToggle && siteNav){
+        navToggle.addEventListener('click', () => {
+          const open = siteNav.classList.toggle('open');
+          navToggle.setAttribute('aria-expanded', String(open));
+        });
+        siteNav.querySelectorAll('.nav-item').forEach(item => {
+          item.addEventListener('click', () => {
+            siteNav.classList.remove('open');
+            navToggle.setAttribute('aria-expanded', 'false');
+          });
+        });
+      }
+
+      // Make hierarchy cards act as section shortcuts
+      document.querySelectorAll('a.token-link[data-goto]').forEach(el => {
+        el.addEventListener('click', (e) => {
+          e.preventDefault();
+          const target = el.getAttribute('data-goto');
+          if (target) showSection(target);
+        });
+        el.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            const target = el.getAttribute('data-goto');
+            if (target) showSection(target);
+          }
+        });
+      });
+
+      // Hash routing
+      window.addEventListener('hashchange', syncFromHash);
+      syncFromHash();
+    });
+  </script>
+</body>
+</html>
