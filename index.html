@@ -18,6 +18,14 @@
       --glass-border: rgba(255, 255, 255, 0.20);
       --brand: #5a67d8; /* section heading */
       --success: #00b894;
+
+      --section-light: rgba(255,255,255,.96);
+      --section-dark: rgba(17,20,28,.82);
+
+      /* Guide readability */
+      --surface: #ffffff;
+      --surface-border: rgba(0,0,0,.08);
+      --muted: #6b7280;
     }
 
     body {
@@ -50,20 +58,43 @@
     .quick-link:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.30); }
 
     /* ---------------- Nav ---------------- */
-    .nav-menu { display: flex; justify-content: center; gap: 14px; margin: 28px 0 40px; flex-wrap: wrap; }
-    .nav-item {
-      background: var(--glass); color: #fff; padding: 10px 18px; border-radius: 25px;
-      cursor: pointer; transition: all .25s ease; border: 2px solid transparent; user-select: none;
+    .nav-toggle { display:none; background: var(--glass); color:#fff; border:1px solid var(--glass-border); border-radius:999px; padding:10px 16px; cursor:pointer; }
+    .nav-toggle:hover { background: rgba(255,255,255,.2); }
+
+    .nav-menu {
+      display: flex; justify-content: center; gap: 14px; margin: 28px 0 40px; flex-wrap: wrap;
+      max-height: none; overflow: visible; transition: max-height .3s ease;
     }
-    .nav-item:hover, .nav-item.active { background: rgba(255,255,255,.20); border-color: rgba(255,255,255,.30); }
+    .nav-item {
+      background: var(--glass);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all .25s ease;
+      user-select: none;
+      border: none;
+    }
+    .nav-item:hover, .nav-item.active {
+      background: rgba(255,255,255,.20);
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.30);
+    }
+
+    @media (max-width:768px){
+      .nav-toggle{ display:block; margin: 0 auto 12px; }
+      .nav-menu{
+        display:flex; flex-direction: column; align-items: center; gap: 10px;
+        max-height: 0; overflow: hidden;
+      }
+      .nav-menu.open{ max-height: 500px; }
+    }
 
     /* ---------------- Sections ---------------- */
     .section {
-      background: rgba(255, 255, 255, .96); border-radius: 16px; padding: 24px; margin-bottom: 26px;
+      background: var(--section-light); border-radius: 16px; padding: 24px; margin-bottom: 26px;
       box-shadow: var(--card-shadow); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
     }
     .section h2 { color: var(--brand); font-size: clamp(1.4rem, 2vw, 2rem); margin-bottom: 14px; border-bottom: 2px solid var(--brand); padding-bottom: 8px; }
-
     .content-section { display: none; }
     .content-section.active { display: block; }
 
@@ -86,67 +117,58 @@
     .copy-btn:hover { opacity: 1; background: rgba(255,255,255,.22); }
 
     .parent-token { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-    .child-tokens { margin-left: 20px; border-left: 3px solid var(--brand); padding-left: 18px; }
     .child-token { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #333; }
 
-    /* ---------------- Tools ---------------- */
+    /* ---------------- Tools & Guide cards ---------------- */
     .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; }
-    .tool-card { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); padding: 22px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,.1); transition: transform .25s ease; }
-    .tool-card:hover { transform: translateY(-5px); }
-    .tool-card h3 { color: #d63031; margin-bottom: 10px; font-size: 1.2rem; }
+    .tool-card, .guide-card {
+      background: var(--surface);
+      color: #1f2937;
+      padding: 22px;
+      border-radius: 12px;
+      text-align: left;
+      box-shadow: 0 4px 15px rgba(0,0,0,.06);
+      transition: transform .25s ease;
+      border: 1px solid var(--surface-border);
+    }
+    .tool-card:hover, .guide-card:hover { transform: translateY(-3px); }
+    .tool-card h3, .guide-card h3 { margin-bottom: 10px; font-size: 1.2rem; color:#111827; }
     .tool-btn { background: linear-gradient(45deg, #d63031, #e17055); color: white; padding: 10px 22px; border: none; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: bold; transition: transform .2s ease, box-shadow .2s ease; cursor: pointer; }
     .tool-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,.2); }
 
-    /* ---------------- Diagram ---------------- */
-    .hierarchy-diagram { margin: 30px 0; }
-    .hierarchy-level { margin: 18px 0; }
-    .hierarchy-arrow { font-size: 2rem; color: white; text-align: center; margin: 8px 0; text-shadow: 2px 2px 4px rgba(0,0,0,.3); }
-
-    /* ---------------- Notification ---------------- */
-    .notification {
-      position: fixed; top: 20px; right: 20px; background: var(--success); color: white; padding: 14px 18px; border-radius: 10px;
-      display: none; z-index: 1000; box-shadow: 0 10px 20px rgba(0,0,0,.12);
+    /* ---------------- Infographic ---------------- */
+    .infographic {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: 14px;
+      padding: 12px;
+      margin-top: 10px;
+      box-shadow: 0 4px 14px rgba(0,0,0,.06);
     }
+    .eco-svg { width: 100%; height: auto; display: block; }
+    .hierarchy-diagram { margin: 30px 0; }
+    .hierarchy-arrow { font-size: 2rem; text-align: center; margin: 8px 0; color: var(--brand); }
 
     /* ---------------- Responsive ---------------- */
-    @media (max-width: 768px) {
-      .quick-links { flex-direction: column; align-items: center; }
-    }
-
+    @media (max-width: 768px) { .quick-links { flex-direction: column; align-items: center; } }
     @media (prefers-reduced-motion: reduce) {
-      .token-card, .tool-card, .quick-link, .nav-item { transition: none !important; }
-    }
-  
-    /* === Theme toggle & mobile nav additions === */
-    :root { --section-light: rgba(255,255,255,.96); --section-dark: rgba(17,20,28,.82); }
-    .section { background: var(--section-light); }
-
-    .header-controls { display:flex; justify-content:center; gap:10px; margin-bottom:10px; }
-    .header-controls .chip { background: var(--glass); color:#fff; border:1px solid var(--glass-border); border-radius:999px; padding:8px 14px; cursor:pointer; }
-    .header-controls .chip:hover { background: rgba(255,255,255,.2); }
-
-    .nav-toggle { display:none; background: var(--glass); color:#fff; border:1px solid var(--glass-border); border-radius:999px; padding:10px 16px; cursor:pointer; }
-    .nav-toggle:hover { background: rgba(255,255,255,.2); }
-
-    @media (max-width:768px){
-      .nav-toggle{ display:block; margin: 0 auto 12px; }
-      .nav-menu{ display:none; }
-      .nav-menu.open{ display:flex; }
+      .token-card, .tool-card, .quick-link, .nav-item, .guide-card { transition: none !important; }
     }
 
+    /* === Dark theme === */
     [data-theme="dark"]{
-      --bg-1: #1f2638;
-      --bg-2: #0f1325;
-      --ink: #e7eaf0;
-      --ink-soft: #c2c8d0;
-      --glass: rgba(255,255,255,0.06);
-      --glass-border: rgba(255,255,255,0.12);
+      --bg-1: #1f2638; --bg-2: #0f1325;
+      --ink: #e7eaf0; --ink-soft: #c2c8d0;
+      --glass: rgba(255,255,255,0.06); --glass-border: rgba(255,255,255,0.12);
+      --surface: #171a22; --surface-border: rgba(255,255,255,.1); --muted: #aeb6c2;
     }
-
     [data-theme="dark"] .section{ background: var(--section-dark); color: var(--ink); }
     [data-theme="dark"] .nav-item{ color: #f2f3f7; }
-  
-    .token-link{ cursor: pointer; }
+    [data-theme="dark"] .tool-card, [data-theme="dark"] .guide-card {
+      background: linear-gradient(135deg, #2b3348 0%, #1e2436 100%);
+      color: #e9edf5; border: 1px solid rgba(255,255,255,.08);
+    }
+    [data-theme="dark"] .tool-card h3, [data-theme="dark"] .guide-card h3 { color: #ffd1a6; }
   </style>
 </head>
 <body>
@@ -155,17 +177,17 @@
     <header class="header" role="banner">
       <h1>@notsdotq</h1>
       <p>Decentralized Finance Token Ecosystem</p>
-      <div class="header-controls">
-        <button id="themeToggle" class="chip" aria-pressed="false" title="Toggle theme">🌙 Dark</button>
+      <div class="header-controls" style="display:flex; justify-content:center; gap:10px; margin-bottom:10px;">
+        <button id="themeToggle" class="chip" aria-pressed="false" title="Toggle theme" style="background: var(--glass); color:#fff; border:1px solid var(--glass-border); border-radius:999px; padding:8px 14px; cursor:pointer;">🌙 Dark</button>
       </div>
       <nav aria-label="Quick links">
         <div class="quick-links">
           <a href="https://treasurysystem.win/" target="_blank" rel="noopener" class="quick-link">Treasury System</a>
           <a href="https://spinetracker.vercel.app/?token=0xaC57300DA6e17e9E83e71b9F6F75d08dC3836532" target="_blank" rel="noopener" class="quick-link">Spine Tracker</a>
-            <a href="https://t.me/notsdotq" target="_blank" rel="noopener" class="quick-link">Telegram @notsdotq</a>
+          <a href="https://t.me/notsdotq" target="_blank" rel="noopener" class="quick-link">Telegram @notsdotq</a>
           <a href="https://dexscreener.com/pulsechain/0x0f127db7a16bc6cfd9de030f2b3e5811cb68a77b" target="_blank" rel="noopener" class="quick-link">📈 DexScreener</a>
           <a href="https://pulsex.mypinata.cloud/ipfs/bafybeiajyhfbf6evh4mdabassmbtsy73ci2gmcgh4ffmjkrgsea35vqxba/#/" target="_blank" rel="noopener" class="quick-link">💰 PulseX</a>
-          </div>
+        </div>
       </nav>
     </header>
 
@@ -178,77 +200,107 @@
       <div class="nav-item" role="button" data-target="sp500" onclick="showSection('sp500', this)">S&amp;P 500 Tokens</div>
       <div class="nav-item" role="button" data-target="bank" onclick="showSection('bank', this)">Bank Tokens</div>
       <div class="nav-item" role="button" data-target="tools" onclick="showSection('tools', this)">Tools & Utilities</div>
+      <div class="nav-item" role="button" data-target="guide" onclick="showSection('guide', this)">Guide</div>
     </nav>
 
     <!-- OVERVIEW -->
     <section id="overview" class="content-section active" aria-labelledby="overview-title">
       <div class="section">
         <h2 id="overview-title">Token Ecosystem Hierarchy</h2>
-        <p>Welcome to the Notsdotq token ecosystem, featuring a comprehensive collection of DeFi tokens representing major market indices and financial institutions.</p>
+        <p>Welcome to the Notsdotq token ecosystem, featuring a collection of DeFi tokens representing major market indices and financial primitives.</p>
 
-        <div style="text-align: center; margin: 30px 0;">
-          <div class="hierarchy-diagram">
-            <div class="hierarchy-level">
-              <div class="token-card" style="background: linear-gradient(135deg, #74b9ff, #0984e3); margin: 0 auto; max-width: 420px;">
-                <div class="token-name">TREASURY BILL 💰</div>
-                <div class="token-symbol">Root Contract</div>
-                <div class="token-address" onclick="copyToClipboard('0x463413c579D29c26D59a65312657DFCe30D545A1')">
-                  0x463413c579D29c26D59a65312657DFCe30D545A1
-                  <button class="copy-btn" aria-label="Copy address">📋</button>
-                </div>
+        <!-- Infographic (v2) -->
+        <div class="infographic" aria-label="Visual diagram of token hierarchy">
+          <svg class="eco-svg" viewBox="0 0 980 680" role="img" aria-labelledby="ecoTitle ecoDesc" xmlns="http://www.w3.org/2000/svg">
+            <title id="ecoTitle">Notsdotq Ecosystem Infographic</title>
+            <desc id="ecoDesc">F⊙D → N⊙SD⊙Q (V4) with a V4 spine (B⊙NK → TR⊙Y) and two separate V3 branches (D⊙W⊙J and S&amp;P⊙500), each with its own children.</desc>
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#74b9ff"/><stop offset="100%" stop-color="#0984e3"/></linearGradient>
+              <linearGradient id="g2" x1="0" x2="1"><stop offset="0%" stop-color="#667eea"/><stop offset="100%" stop-color="#764ba2"/></linearGradient>
+              <linearGradient id="g3" x1="0" x2="1"><stop offset="0%" stop-color="#00b894"/><stop offset="100%" stop-color="#00cec9"/></linearGradient>
+              <linearGradient id="g4" x1="0" x2="1"><stop offset="0%" stop-color="#e84393"/><stop offset="100%" stop-color="#fd79a8"/></linearGradient>
+              <linearGradient id="g5" x1="0" x2="1"><stop offset="0%" stop-color="#a29bfe"/><stop offset="100%" stop-color="#6c5ce7"/></linearGradient>
+              <linearGradient id="g6" x1="0" x2="1"><stop offset="0%" stop-color="#55efc4"/><stop offset="100%" stop-color="#00b894"/></linearGradient>
+              <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,3 L0,6 Z" fill="#5a67d8"/></marker>
+              <style>
+                .node{rx:12;ry:12}
+                .label{font:600 14px/1.2 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;fill:#111827}
+                .label-inv{font:600 14px/1.2 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;fill:#fff}
+                .sub-inv{font:600 12px/1.2 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;fill:#eef2ff;opacity:.95}
+                .pill{rx:10;ry:10}
+                .group-title{font:700 13px/1.2 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;fill:#0f172a}
+              </style>
+            </defs>
+
+            <!-- Root -->
+            <rect x="380" y="22" width="220" height="64" fill="url(#g1)" class="node"/>
+            <text x="490" y="50" text-anchor="middle" class="label-inv">TREASURY BILL 💰</text>
+            <text x="490" y="68" text-anchor="middle" class="sub-inv">Root Contract</text>
+
+            <!-- F⊙D -->
+            <line x1="490" y1="86" x2="490" y2="132" stroke="#5a67d8" stroke-width="2.5" marker-end="url(#arrow)"/>
+            <rect x="390" y="132" width="200" height="58" fill="url(#g2)" class="node"/>
+            <text x="490" y="162" text-anchor="middle" class="label-inv">F⊙D (Federal Reserve)</text>
+
+            <!-- N⊙SD⊙Q (V4) -->
+            <line x1="490" y1="190" x2="490" y2="236" stroke="#5a67d8" stroke-width="2.5" marker-end="url(#arrow)"/>
+            <rect x="380" y="236" width="220" height="58" fill="url(#g3)" class="node"/>
+            <text x="490" y="266" text-anchor="middle" class="label">N⊙SD⊙Q (V4)</text>
+
+            <!-- V4 spine -->
+            <line x1="490" y1="294" x2="490" y2="342" stroke="#5a67d8" stroke-width="2" marker-end="url(#arrow)"/>
+            <rect x="380" y="342" width="220" height="56" fill="url(#g4)" class="node"/>
+            <text x="490" y="372" text-anchor="middle" class="label">B⊙NK (V4)</text>
+            <line x1="490" y1="398" x2="490" y2="446" stroke="#5a67d8" stroke-width="2" marker-end="url(#arrow)"/>
+            <rect x="380" y="446" width="220" height="56" fill="url(#g5)" class="node"/>
+            <text x="490" y="476" text-anchor="middle" class="label">TR⊙Y (V4)</text>
+
+            <!-- Index Minters (V3) group -->
+            <rect x="60" y="318" width="280" height="250" fill="url(#g6)" class="node"/>
+            <text x="200" y="340" text-anchor="middle" class="group-title">Index Minters (V3)</text>
+
+            <!-- DOW JONES + its children -->
+            <rect x="80" y="360" width="240" height="72" fill="#ffffff" class="node"/>
+            <text x="200" y="386" text-anchor="middle" class="label">D⊙W⊙J (V3)</text>
+            <rect x="94" y="404" width="64" height="22" fill="#eef2ff" class="pill"/><text x="126" y="420" text-anchor="middle" class="label" style="font-size:12px;fill:#374151">B⊙EING</text>
+            <rect x="162" y="404" width="64" height="22" fill="#eef2ff" class="pill"/><text x="194" y="420" text-anchor="middle" class="label" style="font-size:12px;fill:#374151">N⊙K⊙E</text>
+            <rect x="230" y="404" width="64" height="22" fill="#eef2ff" class="pill"/><text x="262" y="420" text-anchor="middle" class="label" style="font-size:12px;fill:#374151">DIS⊙</text>
+
+            <!-- S&P 500 + its children -->
+            <rect x="80" y="446" width="240" height="96" fill="#ffffff" class="node"/>
+            <text x="200" y="472" text-anchor="middle" class="label">S&amp;P⊙500 (V3)</text>
+            <rect x="94" y="492" width="64" height="22" fill="#eef2ff" class="pill"/><text x="126" y="508" text-anchor="middle" class="label" style="font-size:12px;fill:#374151">NVDA</text>
+            <rect x="162" y="492" width="64" height="22" fill="#eef2ff" class="pill"/><text x="194" y="508" text-anchor="middle" class="label" style="font-size:12px;fill:#374151">G⊙⊙GL⊙</text>
+            <rect x="230" y="492" width="64" height="22" fill="#eef2ff" class="pill"/><text x="262" y="508" text-anchor="middle" class="label" style="font-size:12px;fill:#374151">T⊙SL⊙</text>
+
+            <!-- Connect to each V3 branch separately -->
+            <line x1="440" y1="266" x2="200" y2="360" stroke="#5a67d8" stroke-width="2" marker-end="url(#arrow)"/>
+            <line x1="440" y1="270" x2="200" y2="446" stroke="#5a67d8" stroke-width="2" marker-end="url(#arrow)"/>
+          </svg>
+        </div>
+
+        <!-- Quick cards -->
+        <div class="hierarchy-diagram">
+          <div class="hierarchy-arrow" aria-hidden="true">↓</div>
+          <div class="token-grid">
+            <div class="token-card parent-token">
+              <div class="token-name">Notsdotq Main Contract</div>
+              <div class="token-address" onclick="copyToClipboard('0xaC57300DA6e17e9E83e71b9F6F75d08dC3836532')">
+                0xaC57300DA6e17e9E83e71b9F6F75d08dC3836532
+                <button class="copy-btn" aria-label="Copy address">📋</button>
+              </div>
+              <div style="margin-top: 12px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                <a href="https://dexscreener.com/pulsechain/0x0f127db7a16bc6cfd9de030f2b3e5811cb68a77b" target="_blank" rel="noopener" class="quick-link" style="font-size: .9em; padding: 8px 14px;">📈 View Chart</a>
+                <a href="https://pulsex.mypinata.cloud/ipfs/bafybeiajyhfbf6evh4mdabassmbtsy73ci2gmcgh4ffmjkrgsea35vqxba/#/" target="_blank" rel="noopener" class="quick-link" style="font-size: .9em; padding: 8px 14px;">💰 Buy on PulseX</a>
               </div>
             </div>
-            <div class="hierarchy-arrow" aria-hidden="true">↓</div>
-            <div class="hierarchy-level">
-              <div class="token-card parent-token" style="margin: 0 auto; max-width: 420px;">
-                <div class="token-name">F⊙D (Federal Reserve)</div>
-                <div class="token-address" onclick="copyToClipboard('0x1D177CB9EfEEa49A8B97ab1C72785a3A37ABc9Ff')">
-                  0x1D177CB9EfEEa49A8B97ab1C72785a3A37ABc9Ff
-                  <button class="copy-btn" aria-label="Copy address">📋</button>
-                </div>
-              </div>
-            </div>
-            <div class="hierarchy-arrow" aria-hidden="true">↓</div>
-            <div class="hierarchy-level" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-              <a href="#nasdaq" class="token-card token-link" style="background: linear-gradient(135deg, #00b894, #00cec9); max-width: 220px; text-decoration:none;" data-goto="nasdaq" role="button" aria-label="Go to NASDAQ section">
-                <div class="token-name">N⊙SD⊙Q</div>
-                <div class="token-symbol">(V4)</div>
-              </a>
-            </div>
-            <div class="hierarchy-arrow" aria-hidden="true">↓</div>
-            <div class="hierarchy-level" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-              <a href="#bank" class="token-card token-link" style="background: linear-gradient(135deg, #e84393, #fd79a8); max-width: 220px; text-decoration:none;" data-goto="bank" role="button" aria-label="Go to Bank tokens section">
-                <div class="token-name">B⊙NK</div>
-                <div class="token-symbol">(V4)</div>
-              </a>
-            </div>
-            <div class="hierarchy-arrow" aria-hidden="true">↓</div>
-            <div class="hierarchy-level" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-              <a href="#bank" class="token-card token-link" style="background: linear-gradient(135deg, #a29bfe, #6c5ce7); max-width: 220px; text-decoration:none;" data-goto="bank" role="button" aria-label="Go to TR⊙Y in Bank section">
-                <div class="token-name">TR⊙Y</div>
-                <div class="token-symbol">(V4)</div>
-              </a>
-            </div>
-          </div>
 
-        <div class="token-grid">
-          <div class="token-card parent-token">
-            <div class="token-name">Notsdotq Main Contract</div>
-            <div class="token-address" onclick="copyToClipboard('0xaC57300DA6e17e9E83e71b9F6F75d08dC3836532')">
-              0xaC57300DA6e17e9E83e71b9F6F75d08dC3836532
-              <button class="copy-btn" aria-label="Copy address">📋</button>
-            </div>
-            <div style="margin-top: 12px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-              <a href="https://dexscreener.com/pulsechain/0x0f127db7a16bc6cfd9de030f2b3e5811cb68a77b" target="_blank" rel="noopener" class="quick-link" style="font-size: .9em; padding: 8px 14px;">📈 View Chart</a>
-              <a href="https://pulsex.mypinata.cloud/ipfs/bafybeiajyhfbf6evh4mdabassmbtsy73ci2gmcgh4ffmjkrgsea35vqxba/#/" target="_blank" rel="noopener" class="quick-link" style="font-size: .9em; padding: 8px 14px;">💰 Buy on PulseX</a>
-            </div>
+            <!-- Renamed overview card linking to the Guide -->
+            <a href="#guide" class="token-card parent-token token-link" data-goto="guide" role="button" aria-label="Open V4 Spine framework docs">
+              <div class="token-name">V4 Spine (Framework)</div>
+              <div class="token-symbol">Infrastructure &amp; docs</div>
+            </a>
           </div>
-
-          <a href="#tools" class="token-card parent-token token-link" data-goto="tools" role="button" aria-label="Open Tools & Utilities" style="text-decoration:none;">
-            <div class="token-name">NotsDotQ V4 Spine</div>
-            <div class="token-symbol">Core Infrastructure</div>
-            <div style="margin-top:10px; font-size:.9em; opacity:.95;">Open Tools →</div>
-          </a>
         </div>
       </div>
     </section>
@@ -258,38 +310,33 @@
       <div class="section">
         <p><a href="#overview" class="tool-btn" style="padding:8px 14px" onclick="showSection('overview');return false;">← Back to Overview</a></p>
         <h2 id="nasdaq-title">NASDAQ (N⊙SD⊙Q) Tokens - V4</h2>
-        <p>The NASDAQ branch is the parent for two index branches. Jump into either branch below. B⊙NK (V4) is also part of the V4 layer under Notsdotq, so we surface it here for quick access.</p>
+        <p>The NASDAQ branch is the parent for two index branches. B⊙NK (V4) is part of the V4 layer under Notsdotq and is surfaced here for quick access.</p>
 
         <h3 style="color:#8e44ad; margin: 18px 0 10px;">V4 Child Token</h3>
         <div class="token-grid">
-          <div class="token-card" style="background: linear-gradient(135deg, #e84393, #fd79a8);">
+          <a href="#bank" class="token-card token-link" style="background: linear-gradient(135deg, #e84393, #fd79a8);" data-goto="bank" role="button" aria-label="Open Bank section">
             <div class="token-name">B⊙NK (V4)</div>
             <div class="token-symbol">Bank of Teh People</div>
             <div class="token-address" onclick="copyToClipboard('0x655ADbF729Cbe35c3b10e73da30b00F66d7C0da3')">
               0x655ADbF729Cbe35c3b10e73da30b00F66d7C0da3
               <button class="copy-btn" aria-label="Copy address">📋</button>
             </div>
-            <div style="margin-top:10px;">
-              <a href="#bank" class="tool-btn" style="padding:8px 14px" onclick="showSection('bank');return false;">Open Bank Section</a>
-            </div>
-          </div>
+          </a>
         </div>
 
         <h3 style="color:#27ae60; margin: 22px 0 10px;">V3 Index Branches</h3>
         <div class="token-grid">
-          <a href="#dowjones" class="token-card token-link" data-goto="dowjones" role="button" aria-label="Go to Dow Jones section" style="text-decoration:none;background:linear-gradient(135deg,#ff7675,#d63031)">
-            <div class="token-name">D⊙W⊙J (V3)</div>
-            <div class="token-symbol">Dow Jones Index</div>
+          <a href="#dowjones" class="token-card token-link" style="background: linear-gradient(135deg, #ff7675, #d63031);" data-goto="dowjones">
+            <div class="token-name">D⊙W⊙J (V3)</div><div class="token-symbol">Dow Jones Index</div>
           </a>
-          <a href="#sp500" class="token-card token-link" data-goto="sp500" role="button" aria-label="Go to S&amp;P 500 section" style="text-decoration:none;background:linear-gradient(135deg,#55efc4,#00b894)">
-            <div class="token-name">S&amp;P⊙500 (V3)</div>
-            <div class="token-symbol">S&amp;P 500 Index</div>
+          <a href="#sp500" class="token-card token-link" style="background: linear-gradient(135deg, #55efc4, #00b894);" data-goto="sp500">
+            <div class="token-name">S&amp;P⊙500 (V3)</div><div class="token-symbol">S&amp;P 500 Index</div>
           </a>
         </div>
       </div>
     </section>
 
-    <!-- DOW JONES / INDIVIDUAL -->
+    <!-- DOW JONES -->
     <section id="dowjones" class="content-section" aria-labelledby="dowjones-title">
       <div class="section">
         <p><a href="#overview" class="tool-btn" style="padding:8px 14px" onclick="showSection('overview');return false;">← Back to Overview</a></p>
@@ -297,7 +344,7 @@
         <p>Parent and selected children for the Dow Jones branch.</p>
 
         <div class="token-grid">
-          <div class="token-card child-token" style="background:linear-gradient(135deg,#ff7675,#d63031);color:#fff;">
+          <div class="token-card child-token" style="background: linear-gradient(135deg, #ff7675, #d63031); color:#fff;">
             <div class="token-name">D⊙W⊙J (V3)</div>
             <div class="token-symbol">Dow Jones Index</div>
             <div class="token-address" onclick="copyToClipboard('0x7A62fd6b9397740C1E59127a013025e32da310a8')">
@@ -333,14 +380,6 @@
               <button class="copy-btn" aria-label="Copy address">📋</button>
             </div>
           </div>
-          <div class="token-card child-token">
-            <div class="token-name">T⊙SL⊙ (V3)</div>
-            <div class="token-symbol">Tesla</div>
-            <div class="token-address" onclick="copyToClipboard('0x6A3a6D9B578549b7AA94a7dc8913feCC2fBDf947')">
-              0x6A3a6D9B578549b7AA94a7dc8913feCC2fBDf947
-              <button class="copy-btn" aria-label="Copy address">📋</button>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -353,7 +392,7 @@
         <p>Parent and selected children for the S&amp;P 500 branch.</p>
 
         <div class="token-grid">
-          <div class="token-card child-token" style="background:linear-gradient(135deg,#55efc4,#00b894);color:#333;">
+          <div class="token-card child-token" style="background: linear-gradient(135deg, #55efc4, #00b894); color:#333;">
             <div class="token-name">S&amp;P⊙500 (V3)</div>
             <div class="token-symbol">S&amp;P 500 Index</div>
             <div class="token-address" onclick="copyToClipboard('0xa2c1eddC9B76f08b11A16e54fb427Fe40a9a5E18')">
@@ -389,11 +428,12 @@
               <button class="copy-btn" aria-label="Copy address">📋</button>
             </div>
           </div>
+          <!-- Tesla under S&P 500 -->
           <div class="token-card child-token">
-            <div class="token-name">CokeAColuh</div>
-            <div class="token-symbol">K⊙ (V3)</div>
-            <div class="token-address" onclick="copyToClipboard('0x713D73F178d74F326325db870646a0ae249Ac4f5')">
-              0x713D73F178d74F326325db870646a0ae249Ac4f5
+            <div class="token-name">T⊙SL⊙ (V3)</div>
+            <div class="token-symbol">Tesla</div>
+            <div class="token-address" onclick="copyToClipboard('0x6A3a6D9B578549b7AA94a7dc8913feCC2fBDf947')">
+              0x6A3a6D9B578549b7AA94a7dc8913feCC2fBDf947
               <button class="copy-btn" aria-label="Copy address">📋</button>
             </div>
           </div>
@@ -435,29 +475,91 @@
         <div class="tools-grid">
           <div class="tool-card">
             <h3>Treasury System</h3>
-            <p style="margin-bottom:14px;">Manage core treasury operations and flows.</p>
+            <p class="muted" style="margin-bottom:14px;">Manage core treasury operations and flows.</p>
             <a class="tool-btn" href="https://treasurysystem.win/" target="_blank" rel="noopener">Open</a>
           </div>
           <div class="tool-card">
             <h3>Spine Tracker</h3>
-            <p style="margin-bottom:14px;">Monitor V4 spine health and metrics.</p>
+            <p class="muted" style="margin-bottom:14px;">Monitor V4 spine health and metrics.</p>
             <a class="tool-btn" href="https://spinetracker.vercel.app/?token=0xaC57300DA6e17e9E83e71b9F6F75d08dC3836532" target="_blank" rel="noopener">Open</a>
           </div>
           <div class="tool-card">
             <h3>DexScreener</h3>
-            <p style="margin-bottom:14px;">Charts and liquidity analytics.</p>
+            <p class="muted" style="margin-bottom:14px;">Charts and liquidity analytics.</p>
             <a class="tool-btn" href="https://dexscreener.com/pulsechain/0x0f127db7a16bc6cfd9de030f2b3e5811cb68a77b" target="_blank" rel="noopener">Open</a>
           </div>
           <div class="tool-card">
             <h3>PulseX</h3>
-            <p style="margin-bottom:14px;">Swap and provide liquidity.</p>
+            <p class="muted" style="margin-bottom:14px;">Swap and provide liquidity.</p>
             <a class="tool-btn" href="https://pulsex.mypinata.cloud/ipfs/bafybeiajyhfbf6evh4mdabassmbtsy73ci2gmcgh4ffmjkrgsea35vqxba/#/" target="_blank" rel="noopener">Open</a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- QUICK-LINK TARGETS -->
+    <!-- GUIDE (your copy, polished) -->
+    <section id="guide" class="content-section" aria-labelledby="guide-title">
+      <div class="section">
+        <p><a href="#overview" class="tool-btn" style="padding:8px 14px" onclick="showSection('overview');return false;">← Back to Overview</a></p>
+        <h2 id="guide-title">Guide: How NotsDotQ Factories Work (V1–V4) — Focus on V3 & V4</h2>
+
+        <div class="guide-card">
+          <p>Maria (dev) created several token factories where anyone can mint their own tokens. There are four factories: <strong>V1</strong>, <strong>V2</strong>, <strong>V3</strong>, and <strong>V4</strong>.</p>
+          <p>The <strong>NotsDotQ ecosystem</strong> is composed of <strong>V3</strong> and <strong>V4</strong> tokens. Each new token is a <em>child</em> and can be minted by <strong>burning its parent</strong>. Each child token can also be used to <strong>claim back its parent 1-for-1</strong>.</p>
+        </div>
+
+        <div class="guide-card" style="margin-top:14px;">
+          <h3>Multipliers</h3>
+          <ul style="margin-left:18px; line-height:1.7;">
+            <li><strong>V3</strong>: the multiplier only goes up if more than <strong>1,111,111,111</strong> child tokens are minted — meaning most V3s effectively sit at <strong>1×</strong> and are mintable/claimable <strong>1-for-1</strong>.</li>
+            <li><strong>V4</strong>: the multiplier goes up by <strong>+1×</strong> each time the <strong>initial supply</strong> is minted. V4s (like NotsDotQ itself) therefore get progressively more expensive to mint in parent terms.</li>
+          </ul>
+          <p style="margin-top:8px;">Example: <strong>NotsDotQ</strong> started with an initial supply of <strong>1</strong>. A lot has been minted since, so the current multiplier is <strong>124,679×</strong>. That means you would need to burn <strong>124,679 FED</strong> (parent) to mint <strong>1 NotsDotQ</strong> (child). <em>Note:</em> claiming stays 1-for-1, so it’s normally not a good idea to try to claim with V4 tokens.</p>
+          <p style="margin-top:8px;">As the V4 multiplier increases, minting becomes more expensive, which <strong>raises the parity price</strong> of the child token. This site will show whether it’s currently better to <strong>mint/sell</strong> or <strong>buy</strong> on the open market:</p>
+          <p><a class="tool-btn" href="https://spinetracker.vercel.app/?token=0xac57300da6e17e9e83e71b9f6f75d08dc3836532" target="_blank" rel="noopener">Open NotsDotQ on SpineTracker</a></p>
+          <p class="muted" style="margin-top:6px;">Multipliers and parity are dynamic — always check SpineTracker for the latest numbers.</p>
+        </div>
+
+        <div class="guide-card" style="margin-top:14px;">
+          <h3>Spines (Parent → Child Chains) &amp; Parity</h3>
+          <p>Maria and others have created <strong>chains of parent/child tokens</strong> (also called <em>spines</em>), where each parent is used to mint its child.</p>
+          <p>You can see the <strong>Boeing spine</strong> here: <a href="https://spinetracker.vercel.app/?token=0x192E0bA3F6F1C5BB7Db95dcA505683FCed48DEB9" target="_blank" rel="noopener">Boeing on SpineTracker</a>.</p>
+          <ul style="margin-left:18px; line-height:1.7; margin-top:8px;">
+            <li>If the <strong>%</strong> is <strong>above 100%</strong>, you can mint and sell for a potential profit.</li>
+            <li>If it’s <strong>below 100%</strong>, you could buy in anticipation of the child returning to parity.</li>
+            <li>For <strong>V4 tokens</strong>, long spines mean multipliers can <strong>stack up quickly</strong>.</li>
+          </ul>
+        </div>
+
+        <div class="guide-card" style="margin-top:14px;">
+          <h3>Explore the Token Library</h3>
+          <p>Use the <a href="https://spinetracker.vercel.app/token-library.html" target="_blank" rel="noopener">Token Library</a> to view other V3/V4 tokens that have been created (<strong>900+ so far</strong>). Then jump back into the main SpineTracker page for multiplier &amp; parity details for that token and its spine.</p>
+          <p class="muted">Maria is not the dev for many NotsDotQ tokens — click <em>“Show Non-Maria Tokens”</em> to see everything.</p>
+        </div>
+
+        <div class="guide-card" style="margin-top:14px;">
+          <h3>Minting Flow</h3>
+          <p>After you’ve found a token on SpineTracker, clicking <strong>Mint</strong> opens a front-end that handles approvals and multiplier math for that child token — basically, everything you need to get started.</p>
+          <p style="margin-top:10px;"><a class="tool-btn" href="https://spinetracker.vercel.app/" target="_blank" rel="noopener">Open SpineTracker</a></p>
+        </div>
+
+        <div class="guide-card" style="margin-top:14px;">
+          <h3>Quick Risks &amp; Notes</h3>
+          <ul style="margin-left:18px; line-height:1.7;">
+            <li>Contracts vary — always verify addresses and ABIs before interacting.</li>
+            <li>Prices, parity %, and multipliers change — check live data on SpineTracker.</li>
+            <li>Gas, slippage, and liquidity can impact outcomes; nothing here is financial advice.</li>
+          </ul>
+        </div>
+
+        <div class="guide-card" style="margin-top:14px; text-align:center;">
+          <h3>Join the Fun!</h3>
+          <p>Discover, Mint and Enjoy!!! 🎉</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
     <footer style="text-align:center; color:#fff; opacity:.9; margin: 28px 0 14px;">
       <small>© <span id="year"></span> Notsdotq • All on-chain addresses are for informational use only.</small>
     </footer>
@@ -467,7 +569,7 @@
   <div id="notify" class="notification" role="status" aria-live="polite"></div>
 
   <script>
-    // ---------- Utility: show toast ----------
+    // Toast
     function showToast(message, timeout = 1600) {
       const el = document.getElementById('notify');
       if (!el) return;
@@ -476,113 +578,15 @@
       clearTimeout(showToast._t);
       showToast._t = setTimeout(() => (el.style.display = 'none'), timeout);
     }
-
-    // ---------- Clipboard copy (with fallback) ----------
+    // Clipboard
     function copyToClipboard(text) {
       if (!text) return;
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(() => {
-          showToast('Address copied to clipboard');
-        }).catch(() => fallbackCopy(text));
-      } else {
-        fallbackCopy(text);
-      }
+        navigator.clipboard.writeText(text).then(() => { showToast('Address copied to clipboard'); })
+          .catch(() => fallbackCopy(text));
+      } else { fallbackCopy(text); }
     }
     function fallbackCopy(text) {
       const ta = document.createElement('textarea');
       ta.value = text; document.body.appendChild(ta); ta.select();
-      try { document.execCommand('copy'); showToast('Address copied to clipboard'); } catch (e) {}
-      document.body.removeChild(ta);
-    }
-
-    // ---------- Section switching + hash sync ----------
-    function setActiveNav(targetId) {
-      const items = document.querySelectorAll('.nav-item');
-      items.forEach(n => {
-        const isActive = n.getAttribute('data-target') === targetId;
-        n.classList.toggle('active', isActive);
-        if (isActive) n.setAttribute('aria-current', 'page'); else n.removeAttribute('aria-current');
-      });
-    }
-
-    function showSection(id, el) {
-      const sections = document.querySelectorAll('.content-section');
-      sections.forEach(s => s.classList.toggle('active', s.id === id));
-      if (el) {
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        el.classList.add('active');
-        el.setAttribute('aria-current', 'page');
-      } else {
-        setActiveNav(id);
-      }
-      if (location.hash !== '#' + id) {
-        history.replaceState(null, '', '#' + id);
-      }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function syncFromHash() {
-      const raw = location.hash || '#overview';
-      const id = raw.replace('#','');
-      const section = document.getElementById(id);
-      if (section) {
-        showSection(id);
-      } else {
-        showSection('overview');
-      }
-    }
-
-    // === Theme helpers ===
-    function getStoredTheme(){ try { return localStorage.getItem('theme'); } catch(_) { return null; } }
-    function getPreferredTheme(){ const s = getStoredTheme(); if (s==='light'||s==='dark') return s; return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light'; }
-    function applyTheme(theme){ document.body.setAttribute('data-theme', theme); const btn = document.getElementById('themeToggle'); if (btn) { btn.setAttribute('aria-pressed', theme==='dark'); btn.textContent = theme==='dark' ? '☀️ Light' : '🌙 Dark'; btn.title = 'Switch to ' + (theme==='dark' ? 'light' : 'dark') + ' theme'; } }
-    function toggleTheme(){ const current = document.body.getAttribute('data-theme') || getPreferredTheme(); const next = current==='dark' ? 'light' : 'dark'; try { localStorage.setItem('theme', next); } catch(_){} applyTheme(next); }
-
-    // ---------- Init ----------
-    document.addEventListener('DOMContentLoaded', () => {
-      // Year
-      const yearEl = document.getElementById('year'); if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-      // Theme init & toggle
-      applyTheme(getPreferredTheme());
-      const themeBtn = document.getElementById('themeToggle'); if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
-
-      // Mobile nav toggle
-      const navToggle = document.getElementById('navToggle');
-      const siteNav = document.getElementById('siteNav');
-      if (navToggle && siteNav){
-        navToggle.addEventListener('click', () => {
-          const open = siteNav.classList.toggle('open');
-          navToggle.setAttribute('aria-expanded', String(open));
-        });
-        siteNav.querySelectorAll('.nav-item').forEach(item => {
-          item.addEventListener('click', () => {
-            siteNav.classList.remove('open');
-            navToggle.setAttribute('aria-expanded', 'false');
-          });
-        });
-      }
-
-      // Make hierarchy cards act as section shortcuts
-      document.querySelectorAll('a.token-link[data-goto]').forEach(el => {
-        el.addEventListener('click', (e) => {
-          e.preventDefault();
-          const target = el.getAttribute('data-goto');
-          if (target) showSection(target);
-        });
-        el.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            const target = el.getAttribute('data-goto');
-            if (target) showSection(target);
-          }
-        });
-      });
-
-      // Hash routing
-      window.addEventListener('hashchange', syncFromHash);
-      syncFromHash();
-    });
-  </script>
-</body>
-</html>
+      try { document.execCommand('copy
