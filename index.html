@@ -99,6 +99,13 @@
       background: linear-gradient(135deg,#2b3348 0%,#1e2436 100%); color:#e9edf5; border:1px solid rgba(255,255,255,.08);
     }
     [data-theme="dark"] .tool-card h3,[data-theme="dark"] .guide-card h3{ color:#ffd1a6; }
+
+    /* === Fix 1: Better inline link contrast (light + dark) === */
+    .section a:not(.tool-btn):not(.quick-link){
+      color:#1e40af; text-decoration: underline; text-underline-offset:2px;
+    }
+    .section a:not(.tool-btn):not(.quick-link):hover{ text-decoration-thickness:2px; }
+    [data-theme="dark"] .section a:not(.tool-btn):not(.quick-link){ color:#8ab4ff; }
   </style>
 </head>
 <body>
@@ -141,7 +148,7 @@
 
         <!-- Infographic -->
         <div class="infographic" aria-label="Visual diagram of token hierarchy">
-          <!-- Inline SVG v2 (shows separate branches + child pills) -->
+          <!-- Inline SVG v2 -->
           <svg class="eco-svg" viewBox="0 0 980 680" role="img" aria-labelledby="ecoTitle ecoDesc" xmlns="http://www.w3.org/2000/svg">
             <title id="ecoTitle">Notsdotq Ecosystem Infographic</title>
             <desc id="ecoDesc">F⊙D → N⊙SD⊙Q (V4), V4 spine (B⊙NK → TR⊙Y), and two V3 branches (D⊙W⊙J and S&amp;P⊙500) each with their own children.</desc>
@@ -432,7 +439,7 @@
       </div>
     </section>
 
-    <!-- GUIDE (unchanged from prior message) -->
+    <!-- GUIDE -->
     <section id="guide" class="content-section" aria-labelledby="guide-title">
       <div class="section">
         <p><a href="#overview" class="tool-btn" style="padding:8px 14px">← Back to Overview</a></p>
@@ -484,7 +491,16 @@
             <li>Contracts vary — always verify addresses and ABIs before interacting.</li>
             <li>Prices, parity %, and multipliers change — check live data on SpineTracker.</li>
             <li>Gas, slippage, and liquidity can impact outcomes; nothing here is financial advice.</li>
+            <!-- === Fix 2 additions: pricing/liquidity resources === -->
+            <li>For live price/liquidity, consult
+              <a href="https://dexscreener.com" target="_blank" rel="noopener">DexScreener</a>,
+              <a href="https://www.dextools.io" target="_blank" rel="noopener">DEXTools</a>, and
+              <a href="https://liquidity-pools.vercel.app/" target="_blank" rel="noopener">Liquidity Pools</a>.
+            </li>
           </ul>
+          <p class="muted" style="margin-top:8px;">
+            A V3/V4 token is only as good as the community that supports it and the liquidity that is provided. Always DYOR.
+          </p>
         </div>
 
         <div class="guide-card" style="margin-top:14px; text-align:center;">
@@ -540,12 +556,10 @@
       showSection(section ? id : 'overview');
     }
 
-    /* -------- Robust internal-link handling (fixes hash links) -------- */
+    /* -------- Robust internal-link handling -------- */
     document.addEventListener('click', (e) => {
       const target = e.target.closest('.nav-item[data-target], [data-goto], a[href^="#"]');
       if (!target) return;
-
-      // Ignore if link has data-external flag or real external href
       if (target.matches('a[href^="#"]') || target.hasAttribute('data-goto') || target.classList.contains('nav-item')) {
         const id = target.getAttribute('data-target') || target.getAttribute('data-goto') || (new URL(target.href).hash || '').slice(1);
         if (id) { e.preventDefault(); showSection(id); }
