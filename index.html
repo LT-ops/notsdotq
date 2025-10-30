@@ -143,6 +143,14 @@
     <!-- OVERVIEW -->
     <section id="overview" class="content-section active" aria-labelledby="overview-title">
       <div class="section">
+        <div style="background:rgba(255,255,255,.05); border-radius:12px; padding:16px; margin-bottom:24px; border:1px solid var(--glass-border);">
+          <h2 style="font-size:1.3rem; margin-bottom:8px;">Welcome!</h2>
+          <p style="font-size:.95rem; line-height:1.6; color:var(--ink-soft);">
+            This is a community-run dashboard for the <strong>@notsdotq</strong> token ecosystem on PulseChain.
+            Here you can find token addresses, official links, and a guide to how the V3/V4 minting system works.
+          </p>
+        </div>
+
         <h2 id="overview-title">Token Ecosystem Hierarchy</h2>
         <p>Welcome to the Notsdotq token ecosystem, featuring a collection of DeFi tokens representing major market indices and financial primitives.</p>
 
@@ -227,13 +235,14 @@
               <div style="margin-top:12px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
                 <a href="https://dexscreener.com/pulsechain/0x0f127db7a16bc6cfd9de030f2b3e5811cb68a77b" target="_blank" rel="noopener" class="quick-link" style="font-size:.9em; padding:8px 14px;">📈 View Chart</a>
                 <a href="https://pulsex.mypinata.cloud/ipfs/bafybeiajyhfbf6evh4mdabassmbtsy73ci2gmcgh4ffmjkrgsea35vqxba/#/" target="_blank" rel="noopener" class="quick-link" style="font-size:.9em; padding:8px 14px;">💰 Buy on PulseX</a>
+                <a href="https://scan.pulsechain.com/address/0xaC57300DA6e17e9E83e71b9F6F75d08dC3836532" target="_blank" rel="noopener" class="quick-link" style="font-size:.9em; padding:8px 14px;">📄 View Contract</a>
               </div>
             </div>
 
             <!-- clearer label so it doesn't look like the token itself -->
             <a href="#guide" class="token-card parent-token token-link" data-goto="guide" role="button" aria-label="Open V4 Spine framework docs">
               <div class="token-name">V4 Spine (Framework)</div>
-              <div class="token-symbol">Infrastructure &amp; docs</div>
+              <div class="token-symbol" style="white-space:normal; line-height:1.4;">The core parent->child token chain. Click to learn more.</div>
             </a>
           </div>
         </div>
@@ -249,14 +258,14 @@
 
         <h3 style="color:#8e44ad; margin:18px 0 10px;">V4 Child Token</h3>
         <div class="token-grid">
-          <a href="#bank" class="token-card token-link" data-goto="bank" role="button" aria-label="Open Bank section" style="background:linear-gradient(135deg,#e84393,#fd79a8);">
+          <div id="bank-token-card" class="token-card" style="background:linear-gradient(135deg,#e84393,#fd79a8);">
             <div class="token-name">B⊙NK (V4)</div>
             <div class="token-symbol">Bank of Teh People</div>
             <div class="token-address" onclick="copyToClipboard('0x655ADbF729Cbe35c3b10e73da30b00F66d7C0da3')">
               0x655ADbF729Cbe35c3b10e73da30b00F66d7C0da3
               <button class="copy-btn" aria-label="Copy address">📋</button>
             </div>
-          </a>
+          </div>
         </div>
 
         <h3 style="color:#27ae60; margin:22px 0 10px;">V3 Index Branches</h3>
@@ -279,7 +288,7 @@
         <p>Parent and selected children for the Dow Jones branch.</p>
 
         <div class="token-grid">
-          <div class="token-card child-token" style="background:linear-gradient(135deg,#ff7675,#d63031); color:#fff;">
+          <div id="dowjones-token-card" class="token-card child-token" style="background:linear-gradient(135deg,#ff7675,#d63031); color:#fff;">
             <div class="token-name">D⊙W⊙J (V3)</div>
             <div class="token-symbol">Dow Jones Index</div>
             <div class="token-address" onclick="copyToClipboard('0x7A62fd6b9397740C1E59127a013025e32da310a8')">
@@ -291,7 +300,7 @@
 
         <h3 style="color:#666; margin:18px 0 10px;">Children</h3>
         <div class="token-grid">
-          <div class="token-card child-token">
+          <div id="boeing-token-card" class="token-card child-token">
             <div class="token-name">B⊙EING (V3)</div>
             <div class="token-symbol">Boeing</div>
             <div class="token-address" onclick="copyToClipboard('0x192E0bA3F6F1C5BB7Db95dcA505683FCed48DEB9')">
@@ -299,7 +308,7 @@
               <button class="copy-btn" aria-label="Copy address">📋</button>
             </div>
           </div>
-          <div class="token-card child-token">
+          <div id="nike-token-card" class="token-card child-token">
             <div class="token-name">N⊙K⊙E (V3)</div>
             <div class="token-symbol">Nike</div>
             <div class="token-address" onclick="copyToClipboard('0xb4484b06df3C665EE8f14De086cDeEDa55C3F01B')">
@@ -307,7 +316,7 @@
               <button class="copy-btn" aria-label="Copy address">📋</button>
             </div>
           </div>
-          <div class="token-card child-token">
+          <div id="disney-token-card" class="token-card child-token">
             <div class="token-name">DIS⊙ (V3)</div>
             <div class="token-symbol">Disney</div>
             <div class="token-address" onclick="copyToClipboard('0x01Fc346F82d809C9e0b017Ac939Bc2065Ed34475')">
@@ -327,7 +336,7 @@
         <p>Parent and selected children for the S&amp;P 500 branch.</p>
 
         <div class="token-grid">
-          <div class="token-card child-token" style="background:linear-gradient(135deg,#55efc4,#00b894); color:#333;">
+          <div id="sp500-token-card" class="token-card child-token" style="background:linear-gradient(135deg,#55efc4,#00b894); color:#333;">
             <div class="token-name">S&amp;P⊙500 (V3)</div>
             <div class="token-symbol">S&amp;P 500 Index</div>
             <div class="token-address" onclick="copyToClipboard('0xa2c1eddC9B76f08b11A16e54fb427Fe40a9a5E18')">
@@ -339,7 +348,7 @@
 
         <h3 style="color:#666; margin:18px 0 10px;">Children</h3>
         <div class="token-grid">
-          <div class="token-card child-token">
+          <div id="kellogg-token-card" class="token-card child-token">
             <div class="token-name">WK Kell⊙gg C⊙</div>
             <div class="token-symbol">KLG⊙ (V3)</div>
             <div class="token-address" onclick="copyToClipboard('0xD9b7C783A99203e52eA33850BeA8bEE4A46358a0')">
@@ -347,7 +356,7 @@
               <button class="copy-btn" aria-label="Copy address">📋</button>
             </div>
           </div>
-          <div class="token-card child-token">
+          <div id="novido-token-card" class="token-card child-token">
             <div class="token-name">Novido</div>
             <div class="token-symbol">NVDA⊙ (V3)</div>
             <div class="token-address" onclick="copyToClipboard('0x506502388bb74d98BeD3f070b85Ae74936E19223')">
@@ -355,7 +364,7 @@
               <button class="copy-btn" aria-label="Copy address">📋</button>
             </div>
           </div>
-          <div class="token-card child-token">
+          <div id="google-token-card" class="token-card child-token">
             <div class="token-name">GooGullible</div>
             <div class="token-symbol">G⊙⊙GL⊙ (V3)</div>
             <div class="token-address" onclick="copyToClipboard('0xfebe955A35822764845Ac5981cF669ba6CdEAbA9')">
@@ -363,7 +372,7 @@
               <button class="copy-btn" aria-label="Copy address">📋</button>
             </div>
           </div>
-          <div class="token-card child-token">
+          <div id="coke-token-card" class="token-card child-token">
             <div class="token-name">CokeAColuh</div>
             <div class="token-symbol">K⊙ (V3)</div>
             <div class="token-address" onclick="copyToClipboard('0x713D73F178d74F326325db870646a0ae249Ac4f5')">
@@ -371,7 +380,7 @@
               <button class="copy-btn" aria-label="Copy address">📋</button>
             </div>
           </div>
-          <div class="token-card child-token">
+          <div id="tesla-token-card" class="token-card child-token">
             <div class="token-name">T⊙SL⊙ (V3)</div>
             <div class="token-symbol">Tesla</div>
             <div class="token-address" onclick="copyToClipboard('0x6A3a6D9B578549b7AA94a7dc8913feCC2fBDf947')">
@@ -390,7 +399,7 @@
         <h2 id="bank-title">Bank Tokens (B⊙NK V4)</h2>
         <p>Bank-themed tokens and related financial primitives.</p>
         <div class="token-grid">
-          <div class="token-card" style="background:linear-gradient(135deg,#e84393,#fd79a8);">
+          <div id="bank-token-card-large" class="token-card" style="background:linear-gradient(135deg,#e84393,#fd79a8);">
             <div class="token-name">B⊙NK (V4)</div>
             <div class="token-symbol">Bank of Teh People</div>
             <div class="token-address" onclick="copyToClipboard('0x655ADbF729Cbe35c3b10e73da30b00F66d7C0da3')">
@@ -398,7 +407,7 @@
               <button class="copy-btn" aria-label="Copy address">📋</button>
             </div>
           </div>
-          <div class="token-card" style="background:linear-gradient(135deg,#a29bfe,#6c5ce7);">
+          <div id="troy-token-card" class="token-card" style="background:linear-gradient(135deg,#a29bfe,#6c5ce7);">
             <div class="token-name">TR⊙Y (V4)</div>
             <div class="token-symbol">Treasury Yields</div>
             <div class="token-address" onclick="copyToClipboard('0xe4b960ff9dbfb418af4e181966cd44ccb66acf7e')">
@@ -443,69 +452,44 @@
     <section id="guide" class="content-section" aria-labelledby="guide-title">
       <div class="section">
         <p><a href="#overview" class="tool-btn" style="padding:8px 14px">← Back to Overview</a></p>
-        <h2 id="guide-title">Guide: How NotsDotQ Factories Work (V1–V4) — Focus on V3 & V4</h2>
+        <h2 id="guide-title">How Notsdotq Works: A Quick Guide</h2>
 
         <div class="guide-card">
-          <p>Maria (dev) created several token factories where anyone can mint their own tokens. There are four factories: <strong>V1</strong>, <strong>V2</strong>, <strong>V3</strong>, and <strong>V4</strong>.</p>
-          <p>The <strong>NotsDotQ ecosystem</strong> is composed of <strong>V3</strong> and <strong>V4</strong> tokens. Each new token is a <em>child</em> and can be minted by <strong>burning its parent</strong>. Each child token can also be used to <strong>claim back its parent 1-for-1</strong>.</p>
-        </div>
-
-        <div class="guide-card" style="margin-top:14px;">
-          <h3>Multipliers</h3>
-          <ul style="margin-left:18px; line-height:1.7;">
-            <li><strong>V3</strong>: the multiplier only goes up if more than <strong>1,111,111,111</strong> child tokens are minted — meaning most V3s effectively sit at <strong>1×</strong> and are mintable/claimable <strong>1-for-1</strong>.</li>
-            <li><strong>V4</strong>: the multiplier goes up by <strong>+1×</strong> each time the <strong>initial supply</strong> is minted. V4s (like NotsDotQ itself) therefore get progressively more expensive to mint in parent terms.</li>
-          </ul>
-          <p style="margin-top:8px;">Example: <strong>NotsDotQ</strong> started with an initial supply of <strong>1</strong>. A lot has been minted since, so the current multiplier is <strong>124,679×</strong>. That means you would need to burn <strong>124,679 FED</strong> (parent) to mint <strong>1 NotsDotQ</strong> (child). <em>Note:</em> claiming stays 1-for-1, so it’s normally not a good idea to try to claim with V4 tokens.</p>
-          <p style="margin-top:8px;">As the V4 multiplier increases, minting becomes more expensive, which <strong>raises the parity price</strong> of the child token. This site will show whether it’s currently better to <strong>mint/sell</strong> or <strong>buy</strong> on the open market:</p>
-          <p><a class="tool-btn" href="https://spinetracker.vercel.app/?token=0xac57300da6e17e9e83e71b9f6f75d08dc3836532" target="_blank" rel="noopener">Open NotsDotQ on SpineTracker</a></p>
-          <p class="muted" style="margin-top:6px;">Multipliers and parity are dynamic — always check SpineTracker for the latest numbers.</p>
-        </div>
-
-        <div class="guide-card" style="margin-top:14px;">
-          <h3>Spines (Parent → Child Chains) &amp; Parity</h3>
-          <p>Maria and others have created <strong>chains of parent/child tokens</strong> (also called <em>spines</em>), where each parent is used to mint its child.</p>
-          <p>You can see the <strong>Boeing spine</strong> here: <a href="https://spinetracker.vercel.app/?token=0x192E0bA3F6F1C5BB7Db95dcA505683FCed48DEB9" target="_blank" rel="noopener">Boeing on SpineTracker</a>.</p>
-          <ul style="margin-left:18px; line-height:1.7; margin-top:8px;">
-            <li>If the <strong>%</strong> is <strong>above 100%</strong>, you can mint and sell for a potential profit.</li>
-            <li>If it’s <strong>below 100%</strong>, you could buy in anticipation of the child returning to parity.</li>
-            <li>For <strong>V4 tokens</strong>, long spines mean multipliers can <strong>stack up quickly</strong>.</li>
+          <h3>Core Concept: Parent → Child</h3>
+          <p>The Notsdotq ecosystem is built on a simple but powerful idea: tokens can be "parents" or "children."</p>
+          <ul style="margin:12px 0 0 18px; line-height:1.7;">
+            <li>To get a <strong>child</strong> token, you <strong>burn</strong> its parent.</li>
+            <li>You can also <strong>claim back</strong> the parent by returning the child (1-for-1).</li>
           </ul>
         </div>
 
         <div class="guide-card" style="margin-top:14px;">
-          <h3>Explore the Token Library</h3>
-          <p>Use the <a href="https://spinetracker.vercel.app/token-library.html" target="_blank" rel="noopener">Token Library</a> to view other V3/V4 tokens that have been created (<strong>900+ so far</strong>). Then jump back into the main SpineTracker page for multiplier &amp; parity details for that token and its spine.</p>
-          <p class="muted">Maria is not the dev for many NotsDotQ tokens — click <em>“Show Non-Maria Tokens”</em> to see everything.</p>
+          <h3>V3 vs. V4 Tokens: The Multiplier</h3>
+          <p>There are two main types of tokens in this ecosystem:</p>
+          <ul style="margin:12px 0 0 18px; line-height:1.7;">
+            <li><strong>V3 Tokens:</strong> Have a <strong>fixed multiplier</strong> (usually 1x). This means you burn 1 parent to get 1 child. Simple and stable.</li>
+            <li><strong>V4 Tokens:</strong> Have a <strong>dynamic multiplier</strong>. Each time the total supply is minted, the cost to mint goes up. This makes them deflationary by design.</li>
+          </ul>
         </div>
 
         <div class="guide-card" style="margin-top:14px;">
-          <h3>Minting Flow</h3>
-          <p>After you’ve found a token on SpineTracker, clicking <strong>Mint</strong> opens a front-end that handles approvals and multiplier math for that child token — basically, everything you need to get started.</p>
+          <h3>What's a Spine?</h3>
+          <p>A "spine" is just a chain of tokens. For example: Token A is the parent of Token B, and Token B is the parent of Token C. Spines can be short or long, and they're what create deep, interconnected token relationships.</p>
+        </div>
+
+        <div class="guide-card" style="margin-top:14px;">
+          <h3>The Big Question: Mint or Buy?</h3>
+          <p>Because of how multipliers work, you can sometimes get a token for cheaper by minting it instead of buying it on the open market (and vice-versa). <strong>SpineTracker</strong> is the essential tool for this.</p>
           <p style="margin-top:10px;"><a class="tool-btn" href="https://spinetracker.vercel.app/" target="_blank" rel="noopener">Open SpineTracker</a></p>
         </div>
 
         <div class="guide-card" style="margin-top:14px;">
-          <h3>Quick Risks &amp; Notes</h3>
+          <h3 style="color:#c0392b;">Risks & Notes</h3>
           <ul style="margin-left:18px; line-height:1.7;">
-            <li>Contracts vary — always verify addresses and ABIs before interacting.</li>
-            <li>Prices, parity %, and multipliers change — check live data on SpineTracker.</li>
-            <li>Gas, slippage, and liquidity can impact outcomes; nothing here is financial advice.</li>
-            <!-- === Fix 2 additions: pricing/liquidity resources === -->
-            <li>For live price/liquidity, consult
-              <a href="https://dexscreener.com" target="_blank" rel="noopener">DexScreener</a>,
-              <a href="https://www.dextools.io" target="_blank" rel="noopener">DEXTools</a>, and
-              <a href="https://liquidity-pools.vercel.app/" target="_blank" rel="noopener">Liquidity Pools</a>.
-            </li>
+            <li><strong>Not Financial Advice:</strong> This is a high-risk space. Nothing here is a recommendation to buy or sell.</li>
+            <li><strong>Do Your Own Research (DYOR):</strong> Always verify contract addresses and understand the tokenomics before interacting with any token.</li>
+            <li><strong>Liquidity Matters:</strong> A token is only as valuable as its liquidity. Low liquidity means high slippage and risk.</li>
           </ul>
-          <p class="muted" style="margin-top:8px;">
-            A V3/V4 token is only as good as the community that supports it and the liquidity that is provided. Always DYOR.
-          </p>
-        </div>
-
-        <div class="guide-card" style="margin-top:14px; text-align:center;">
-          <h3>Join the Fun!</h3>
-          <p>Discover, Mint and Enjoy!!! 🎉</p>
         </div>
       </div>
     </section>
@@ -598,6 +582,99 @@
 
       window.addEventListener('hashchange', syncFromHash);
       syncFromHash();
+    });
+
+    /* -------- Link Injection -------- */
+    function injectTokenLinks(containerId, links) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      const linksContainer = document.createElement('div');
+      linksContainer.style.cssText = 'margin-top:12px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;';
+
+      if (links.dexscreener) {
+        const a = document.createElement('a');
+        a.href = `https://dexscreener.com/pulsechain/${links.dexscreener}`;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.className = 'quick-link';
+        a.style.cssText = 'font-size:.9em; padding:8px 14px;';
+        a.innerHTML = '📈 View Chart';
+        linksContainer.appendChild(a);
+      }
+      if (links.pulsex) {
+        const a = document.createElement('a');
+        a.href = `https://pulsex.mypinata.cloud/ipfs/bafybeiajyhfbf6evh4mdabassmbtsy73ci2gmcgh4ffmjkrgsea35vqxba/#/swap?outputCurrency=${links.pulsex}`;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.className = 'quick-link';
+        a.style.cssText = 'font-size:.9em; padding:8px 14px;';
+        a.innerHTML = '💰 Buy on PulseX';
+        linksContainer.appendChild(a);
+      }
+
+      container.appendChild(linksContainer);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      injectTokenLinks('bank-token-card', {
+        dexscreener: '0x959114f0ca385150a2807694f419c8365882b49c',
+        pulsex: '0x655ADbF729Cbe35c3b10e73da30b00F66d7C0da3'
+      });
+
+      // DOW jones tokens
+      injectTokenLinks('dowjones-token-card', {
+        dexscreener: '0x06de6062143f07a764a511639d67a1a2e487a2c2',
+        pulsex: '0x7A62fd6b9397740C1E59127a013025e32da310a8'
+      });
+      injectTokenLinks('boeing-token-card', {
+        dexscreener: '0x33a38221607f286b2a4a242f53c19e735e19f3a6',
+        pulsex: '0x192E0bA3F6F1C5BB7Db95dcA505683FCed48DEB9'
+      });
+      injectTokenLinks('nike-token-card', {
+        dexscreener: '0xb6441a115bbce5b3b17173e206979a0b06a445e0',
+        pulsex: '0xb4484b06df3C665EE8f14De086cDeEDa55C3F01B'
+      });
+      injectTokenLinks('disney-token-card', {
+        dexscreener: '0x17c0f1ce4c540f5a99e71e21b7a2b988f4c3a7a9',
+        pulsex: '0x01Fc346F82d809C9e0b017Ac939Bc2065Ed34475'
+      });
+
+      // S&P 500 tokens
+      injectTokenLinks('sp500-token-card', {
+        dexscreener: '0x042da7686b8b62b14bb3a2862c2f2115162a4e21',
+        pulsex: '0xa2c1eddC9B76f08b11A16e54fb427Fe40a9a5E18'
+      });
+      injectTokenLinks('kellogg-token-card', {
+        dexscreener: '0x995133f6226176a3b2f5b61a457a6279951b1f24',
+        pulsex: '0xD9b7C783A99203e52eA33850BeA8bEE4A46358a0'
+      });
+      injectTokenLinks('novido-token-card', {
+        dexscreener: '0xb2e80808a54b38a44d081295982d61c6b653443b',
+        pulsex: '0x506502388bb74d98BeD3f070b85Ae74936E19223'
+      });
+      injectTokenLinks('google-token-card', {
+        dexscreener: '0xa2e2e65106e2311f5d6f3c1b753a25a0a3617cce',
+        pulsex: '0xfebe955A35822764845Ac5981cF669ba6CdEAbA9'
+      });
+      injectTokenLinks('coke-token-card', {
+        dexscreener: '0x889be35f2c4e5883a4208a3d3c7150a221c834a3',
+        pulsex: '0x713D73F178d74F326325db870646a0ae249Ac4f5'
+      });
+      injectTokenLinks('tesla-token-card', {
+        dexscreener: '0x5c79ac385a4a90422c534e55490abe6f55513264',
+        pulsex: '0x6A3a6D9B578549b7AA94a7dc8913feCC2fBDf947'
+      });
+
+      // Bank tokens
+      injectTokenLinks('bank-token-card-large', {
+        dexscreener: '0x959114f0ca385150a2807694f419c8365882b49c',
+        pulsex: '0x655ADbF729Cbe35c3b10e73da30b00F66d7C0da3'
+      });
+      injectTokenLinks('troy-token-card', {
+        dexscreener: '0x0875e11b3d12a926a12b504285e2e831aaa10243',
+        pulsex: '0xe4b960ff9dbfb418af4e181966cd44ccb66acf7e'
+      });
     });
   </script>
 </body>
